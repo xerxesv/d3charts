@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Charts</title>
+    <link href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css" rel="stylesheet" type="text/css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js" charset="utf-8"></script>
+    <script src="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.js"></script>
+  </head>
+
+  <body>
+    <div id="chart1">
+      <svg style="height:500px"></svg>
+    </div>
+
+    <script>
+    var formatDiscoveryDuration = function ( disoveryDurationDataset ) {
+      return [
+        {
+          key: "Discovery Duration",
+          color: "#d67777",
+          values: dataset.map( function (datum) {
+            return { label: datum.label, value: datum.count };
+          })
+        }
+      ];
+    };
+
+    nv.addGraph(function() {
+      
+
+
+
+      var chart = nv.models.multiBarHorizontalChart()
+          .x(function(d) { return d.label })
+          .y(function(d) { return d.value })
+          .margin({top: 30, right: 20, bottom: 50, left: 175})
+          .showValues(true)           //Show bar value next to each bar.
+          .tooltips(true)             //Show tooltips on hover.
+//          .transitionDuration(350)
+          .showControls(true);        //Allow user to switch between "Grouped" and "Stacked" mode.
+
+      chart.yAxis
+          .tickFormat(d3.format('f'));
+
+      d3.select('#chart1 svg')
+          .datum( formatDiscoveryDuration(dataset) )
+          .call(chart);
+
+      nv.utils.windowResize(chart.update);
+
+
+      
+      return chart;
+    });
+
+    // this function generates three streams of random data:
+    //
+    // function exampleData() {
+    //   return stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
+    //     console.log('data for stream#', i, ": ", data);
+    //     return {
+    //       key: 'Stream #' + i,
+    //       values: data
+    //     };
+    //   });
+    // }
+
+
+    var dataset = [
+      {
+         "min": 0,
+         "max": 60,
+         "label": "0 - 60 days",
+         "show": false,
+         "count": 14
+      },
+      {
+         "min": 61,
+         "max": 240,
+         "label": "0 - 6 months",
+         "show": true,
+         "count": 76
+      },
+      {
+         "min": 241,
+         "max": 780,
+         "label": "6 - 18 months",
+         "show": true,
+         "count": 327
+      },
+      {
+         "min": 781,
+         "max": 1875,
+         "label": "18 months - 3 years",
+         "show": true,
+         "count": 132
+      },
+      {
+         "min": 1876,
+         "max": 36500,
+         "label": "3 years or more",
+         "show": true,
+         "count": 8
+      }
+    ];
+
+
+
+    </script>
+
+
+  </body>
+</html>

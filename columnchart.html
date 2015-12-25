@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Charts</title>
+    <link href="../nvd3/nv.d3.css" rel="stylesheet" type="text/css">
+
+    <script src="../d3.js" charset="utf-8"></script>
+    <script src="../nvd3/nv.d3.js"></script>
+  </head>
+
+  <body>
+    <div id="chart1">
+      <svg style="height:500px"></svg>
+    </div>
+
+    <script>
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+//          .transitionDuration(350)
+          .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
+          .rotateLabels(0)      //Angle to rotate x-axis labels.
+          .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+          .groupSpacing(0.1)    //Distance between each group of bars.
+        ;
+
+        chart.xAxis
+            .tickFormat(d3.format('f'));
+
+        chart.yAxis
+            .tickFormat(d3.format('f'));
+        d3.select('#chart1 svg')
+            .datum([{key: 'Filings Per Year', values:dataset}, {key: 'Stream2', values: [{x:200, y:200},{x:2100, y:23},{x:2002, y:33},{x:2005, y:203}]}])
+            .call(chart);
+
+        //[{key: 'Filings per year', value:data}]
+        /*         data.forEach(function(datum) {
+                datum.x=datum.y;
+                datum.y=datum.c;
+                delete datum.c;
+            })
+        */
+        
+        nv.utils.windowResize(chart.update);
+
+        return chart;
+    });
+
+    // this function generates three streams of random data:
+    //
+    // function exampleData() {
+    //   return stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
+    //     console.log('data for stream#', i, ": ", data);
+    //     return {
+    //       key: 'Stream #' + i,
+    //       values: data
+    //     };
+    //   });
+    // }
+
+
+    var dataset = [
+       {
+          "x": 2000,
+          "y": 197
+       },
+       {
+          "x": 2001,
+          "y": 160
+       },
+       {
+          "x": 2002,
+          "y": 203
+       },
+       {
+          "x": 2003,
+          "y": 166
+       },
+       {
+          "x": 2004,
+          "y": 200
+       },
+       {
+          "x": 2005,
+          "y": 165
+       },
+       {
+          "x": 2006,
+          "y": 111
+       },
+       {
+          "x": 2007,
+          "y": 157
+       },
+       {
+          "x": 2008,
+          "y": 156
+       },
+       {
+          "x": 2009,
+          "y": 100
+       },
+       {
+          "x": 2010,
+          "y": 147
+       },
+       {
+          "x": 2011,
+          "y": 178
+       },
+       {
+          "x": 2012,
+          "y": 142
+       },
+       {
+          "x": 2013,
+          "y": 155
+       },
+       {
+          "x": 2014,
+          "y": 166
+       },
+       {
+          "x": 2015,
+          "y": 152
+       }
+    ];
+
+
+
+
+    </script>
+
+
+  </body>
+</html>

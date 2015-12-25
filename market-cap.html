@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Charts</title>
+    <link href="lib/nv.d3.css" rel="stylesheet" type="text/css">
+
+    <script src="lib/d3.js" charset="utf-8"></script>
+    <script src="lib/nv.d3.js"></script>
+    <script src="lib/nvd3-multiBarChartLine.js"></script>    
+  </head>
+
+  <body>
+    <div id="chart1">
+      <svg style="height:500px"></svg>
+    </div>
+
+    <script>
+    d3.json("json-data/market-cap-mean-median.json",function (error,data) {
+
+
+
+      nv.addGraph(function() {
+          var chart = nv.models.multiBarChartLine()
+                .margin({top: 30, right: 60, bottom: 50, left: 70})
+
+          chart.yAxis
+              .tickFormat(function (d) { return d3.format('$.3s')(d).replace('G', 'B'); } );
+
+          chart.showControls(false);
+
+          d3.select('#chart1 svg')
+            .datum([
+                {
+                    key: "Mean Market Cap",
+                    //color: "#d67777",
+                    total: data.total.mean,
+                    values: data.annual.map(function (datum) {
+                        return {x: datum.year, y: datum.market_cap.mean};
+                    })
+                },
+                {
+                    key: "Median Market Cap",
+                    //color: "#d67777",
+                    total: data.total.median,
+                    values: data.annual.map(function (datum) {
+                        return {x: datum.year, y: datum.market_cap.median};
+                    })
+                }
+            ])
+            .transition()
+            .duration(0)
+            .call(chart);
+
+          nv.utils.windowResize(chart.update);
+
+          return chart;
+      });
+
+    });
+
+
+
+
+    </script>
+
+
+  </body>
+</html>
